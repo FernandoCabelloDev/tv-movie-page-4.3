@@ -1,0 +1,417 @@
+/* ===== VARIABLES Y RESET ===== */
+:root {
+    --color-fondo: #141414;
+    --color-tarjeta: #2f2f2f;
+    --color-boton: #e50914;
+    --color-boton-hover: #f40612;
+    --color-texto: #ffffff;
+    --color-series: #e50914;
+    --color-modal: #181818;
+    --sombra-suave: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: 'Arial', sans-serif;
+    line-height: 1.4;
+    padding: 10px; /* ← REDUCIDO de 20px a 10px */
+    min-height: 100vh;
+}
+
+/* ~~~~ HEADER ESTILO NETFLIX ~~~~ */
+.titulo-pagina {
+    text-align: center;
+    margin: 15px 0 25px; /* ← Reducido margen */
+    font-size: 2.8rem;
+    font-weight: 900;
+    background: linear-gradient(45deg, #e50914, #ff6b6b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== FILTROS MÁS GRANDES ===== */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* ← Reducido gap */
+    margin-bottom: 30px; /* ← Reducido margen */
+    padding: 0 5px; /* ← Reducido padding */
+}
+
+.filtro-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    color: var(--color-texto);
+    padding: 14px 20px; /* ← Reducido padding */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-width: 180px; /* ← Reducido ancho mínimo */
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.filtro-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.filtro-btn.activo {
+    background: var(--color-boton);
+    border-color: var(--color-boton);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+}
+
+/* ===== CONTENEDOR PRINCIPAL OPTIMIZADO ===== */
+.peliculas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* ← REDUCIDO de 240px a 200px */
+    gap: 15px; /* ← REDUCIDO de 25px a 15px */
+    padding: 5px; /* ← REDUCIDO de 10px a 5px */
+    /* ← ELIMINADO max-width: 1400px (para usar todo el ancho) */
+    margin: 0 auto;
+}
+
+/* ===== TARJETAS DE PELÍCULAS/SERIES MÁS COMPACTAS ===== */
+.movie-card, .serie-card {
+    background: var(--color-tarjeta);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: var(--sombra-suave);
+}
+
+.movie-card:hover, .serie-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.3);
+}
+
+/* Estilo especial para series */
+.serie-card {
+    border-bottom: 4px solid var(--color-series);
+    cursor: pointer;
+}
+
+.serie-card::before {
+    content: "SERIE";
+    position: absolute;
+    top: 10px; /* ← Ajustado posición */
+    right: 10px; /* ← Ajustado posición */
+    background: var(--color-series);
+    color: white;
+    padding: 5px 10px; /* ← Reducido padding */
+    border-radius: 5px;
+    font-size: 0.7rem; /* ← Reducido tamaño */
+    font-weight: bold;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 300px; /* ← REDUCIDO de 350px a 300px */
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover .movie-poster,
+.serie-card:hover .movie-poster {
+    transform: scale(1.1);
+}
+
+.movie-title {
+    font-size: 1.1rem; /* ← Reducido ligeramente */
+    padding: 12px; /* ← Reducido padding */
+    text-align: center;
+    font-weight: 600;
+    min-height: 55px; /* ← Reducido altura mínima */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== BOTONES (SIN MODIFICACIONES QUE AFECTEN VIDEOS) ===== */
+.boton {
+    display: block;
+    background: var(--color-boton);
+    color: white;
+    text-align: center;
+    padding: 12px; /* ← Reducido padding */
+    margin: 10px; /* ← Reducido margen */
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem; /* ← Reducido tamaño */
+}
+
+.boton:hover {
+    background: var(--color-boton-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Botón especial para series */
+.boton-serie {
+    display: block;
+    background: var(--color-series);
+    color: white;
+    text-align: center;
+    padding: 12px; /* ← Reducido padding */
+    margin: 10px; /* ← Reducido margen */
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    width: calc(100% - 20px); /* ← Ajustado al nuevo margen */
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem; /* ← Reducido tamaño */
+}
+
+.boton-serie:hover {
+    background: var(--color-boton-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+}
+
+/* ===== MODAL SERIES (SIN CAMBIOS) ===== */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--color-modal);
+    margin: 2% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 1200px;
+    max-height: 95vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: var(--color-texto);
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.close:hover {
+    color: var(--color-boton);
+}
+
+#modal-titulo {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--color-texto);
+    font-weight: 900;
+}
+
+#modal-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 800px;
+}
+
+/* ===== TEMPORADAS - DISEÑO EN FILA ===== */
+.temporadas {
+    margin-bottom: 30px;
+}
+
+.temporadas h3, .capitulos h3 {
+    margin-bottom: 20px;
+    color: var(--color-texto);
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-left: 4px solid var(--color-boton);
+    padding-left: 12px;
+}
+
+.temporadas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+/* Botones de temporadas */
+.temp-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.temp-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.temp-btn.activo {
+    background: var(--color-boton);
+    border-color: var(--color-boton);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+}
+
+/* ===== CAPÍTULOS - CUADRÍCULA 4x4 ===== */
+.capitulos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Tarjetas de capítulos */
+.capitulo-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+}
+
+.capitulo-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    border-color: var(--color-boton);
+    box-shadow: var(--sombra-suave);
+}
+
+.capitulo-item h4 {
+    color: var(--color-texto);
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.capitulo-item p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.capitulo-item .boton {
+    margin: 5px 0 0 0;
+    padding: 10px;
+    font-size: 0.85rem;
+    width: 100%;
+}
+
+/* ===== RESPONSIVE OPTIMIZADO ===== */
+@media (max-width: 1200px) {
+    .capitulos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .peliculas {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px; /* ← Reducido gap en móviles */
+    }
+    
+    .filtro-btn {
+        min-width: 150px; /* ← Ajustado para móviles */
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+    
+    .modal-content {
+        margin: 5% auto;
+        padding: 20px;
+        width: 98%;
+    }
+    
+    .capitulos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .titulo-pagina {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .capitulos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .temporadas-grid {
+        justify-content: center;
+    }
+    
+    .filtros {
+        gap: 6px; /* ← Reducido gap en móviles pequeños */
+    }
+    
+    .filtro-btn {
+        min-width: 130px; /* ← Más compacto en móviles */
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== GARANTIZAR QUE LINKS DE YOUTUBE NO SE AFECTEN ===== */
+/* Los enlaces se abrirán EXACTAMENTE como los configuraste en YouTube */
+a[href*="youtube.com"],
+a[href*="youtu.be"] {
+    /* Sin estilos que afecten el comportamiento del video */
+    transform: none !important;
+    transition: none !important;
+}
+
+a[href*="youtube.com"]:hover,
+a[href*="youtu.be"]:hover {
+    /* Solo efectos visuales básicos, no afectan el video */
+    transform: translateY(-2px) !important;
+}
